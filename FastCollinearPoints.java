@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 //import java.util.Comparator;
 
-import static java.lang.Double.NEGATIVE_INFINITY;
+//import static java.lang.Double.NEGATIVE_INFINITY;
 
 public class FastCollinearPoints {
     private int num;
@@ -10,6 +10,7 @@ public class FastCollinearPoints {
     private Point[] b;
     private ArrayList <LineSegment> segments;
     public FastCollinearPoints(Point[] points) {
+        if (points== null){throw new IllegalArgumentException();}
         int n = points.length;
         if(n<4){return;}
         Point min;
@@ -17,10 +18,13 @@ public class FastCollinearPoints {
         num=0;
         Point[] copy= Arrays.copyOf(points,n);
         for (int i = 0; i < n; i++) {
-        Arrays.sort(copy,points[i].slopeOrder());
+            if (points[i] == null){throw new IllegalArgumentException();}
+            Arrays.sort(copy,points[i].slopeOrder());
             min = points[i];
             max = points[i];
-        for (int j = 1, k=1; j <= n; j++) {if(j==n || Double.compare(points[i].slopeTo(copy[j]),points[i].slopeTo(copy[j+1]))!=0){
+        for (int j = 1, k=1; j <= n; j++) {
+            if(points[i].compareTo(copy[j]) == 0){throw new IllegalArgumentException();}
+            if(j==n || Double.compare(points[i].slopeTo(copy[j]),points[i].slopeTo(copy[j+1]))!=0){
             if(j-k>=3 && min.compareTo(points[i])==0){
                 segments.add(new LineSegment(min,max));
                 min = points[i];
