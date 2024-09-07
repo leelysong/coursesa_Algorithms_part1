@@ -11,8 +11,8 @@
 import java.util.Comparator;
 import edu.princeton.cs.algs4.StdDraw;
 
-import static java.lang.Double.NEGATIVE_INFINITY;
-import static java.lang.Double.POSITIVE_INFINITY;
+//import static java.lang.Double.NEGATIVE_INFINITY;
+//import static java.lang.Double.POSITIVE_INFINITY;
 
 public class Point implements Comparable<Point> {
 
@@ -62,10 +62,10 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        if (that.y==this.y) return 0.0;
-        else if (that.x==this.x && that.y!=this.y) return POSITIVE_INFINITY;
-        else if(that.x == this.x && that.y==this.y) return NEGATIVE_INFINITY;
-        else {return (that.y-this.y)/(that.x-this.x);}
+        if(Integer.compare(that.x,this.x )==0 && Integer.compare(that.y,this.y )==0) return Double.NEGATIVE_INFINITY;
+        else if (Integer.compare(that.y,this.y )==0) return +0.0;
+        else if (Integer.compare(that.x,this.x )==0 && Integer.compare(that.y,this.y )!=0) return Double.POSITIVE_INFINITY;
+        else {return 1.0*(that.y-this.y)/(that.x-this.x);}
     }
 
     /**
@@ -81,9 +81,9 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        if(that.y==this.y && this.x==that.x) return 0;
-        else if(that.y==this.y && this.x<that.x) return -1;
-        else if(this.y<that.y)return -1;
+        if(Integer.compare(that.y,this.y )==0 && Integer.compare(that.x,this.x )==0) return 0;
+        if(Integer.compare(that.y,this.y )==0 && Integer.compare(that.x,this.x )>0) return -1;
+        if(Integer.compare(that.y,this.y )>0)return -1;
         else return 1;
     }
 
@@ -96,9 +96,7 @@ public class Point implements Comparable<Point> {
     public Comparator<Point> slopeOrder() {
         class BySlope implements Comparator<Point>{
             public int compare(Point a, Point b) {
-                if (slopeTo(a)==slopeTo(b)) {return 0;}
-                else if (slopeTo(a)<slopeTo(b)) {return -1;}
-                else  {return 1;}
+               return Double.compare(slopeTo(a), slopeTo(b));
             }
         }
     return new BySlope();
@@ -130,7 +128,7 @@ public class Point implements Comparable<Point> {
         Point g = new Point(0, 0);
         System.out.println(a.slopeTo(b));
         System.out.println(a.slopeTo(c));
-        System.out.println(a.slopeTo(d));
+        System.out.println(a.slopeTo(g));
         System.out.println(a.slopeOrder());
     }
 }
