@@ -1,34 +1,41 @@
+//import edu.princeton.cs.algs4.StdDraw;
+//import edu.princeton.cs.algs4.StdOut;
+
+import java.util.ArrayList;
+
 public class BruteCollinearPoints {
     private int num;
-    private Point[] a;
-    private Point[] b;
-    private LineSegment[] c;
+    private Point a;
+    private Point b;
+    private ArrayList <LineSegment> segments;
     public BruteCollinearPoints(Point[] points)// finds all line segments containing 4 points
     {
+        if (points == null){throw new IllegalArgumentException();}
         int n = points.length;
         num=0;
-        int x=n/2;
-        a=new Point[x];
-        b=new Point[x];
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                if (points[i].compareTo(points[j]) == 0) {break;}
-                for (int k = j + 1; k < n; k++) {
+        segments = new ArrayList<>();
+        for (int i = 0; i < n-3; i++) {
+            if (points[i] == null){throw new IllegalArgumentException();}
+            for (int j = i + 1; j < n-2; j++) {
+                if (points[i].compareTo(points[j]) == 0) {throw new IllegalArgumentException();}
+                for (int k = j + 1; k < n-1; k++) {
+                    if(points[k].compareTo(points[j]) == 0) {throw new IllegalArgumentException();}
+                    if(points[i].compareTo(points[k]) == 0) {throw new IllegalArgumentException();}
                     if(points[i].slopeTo(points[j]) != points[i].slopeTo(points[k])) {break;}
-                    if(points[k].compareTo(points[j]) == 0) {break;}
-                    if(points[i].compareTo(points[k]) == 0) {break;}
-                    for (int l = k + 1; l < n; l++) {
-                        if(points[i].slopeTo(points[l]) != points[i].slopeTo(points[k])){break;}
-                        if(points[i].compareTo(points[l]) == 0) {break;}
-                        if(points[l].compareTo(points[k]) == 0) {break;}
-                        if(points[j].compareTo(points[l]) == 0) {break;}
-                        if(points[i].compareTo(points[j])==-1)
-                        {a[num]=points[i];b[num]=points[j];}
-                        else{a[num]=points[j];b[num]=points[i];}
-                        if(a[num].compareTo(points[k])==-1){if(b[num].compareTo(points[k])==-1){b[num]=points[k];}}
-                        else{a[num] =points[k];}
-                        if(a[num].compareTo(points[l])==-1){if(b[num].compareTo(points[l])==-1){b[num]=points[l];}}
-                        else{a[num] =points[l];}
+                    for (int m = k + 1; m < n; m++) {
+                        if(points[i].compareTo(points[m]) == 0) {throw new IllegalArgumentException();}
+                        if(points[m].compareTo(points[k]) == 0) {throw new IllegalArgumentException();}
+                        if(points[j].compareTo(points[m]) == 0) {throw new IllegalArgumentException();}
+                        if(points[i].slopeTo(points[m]) != points[i].slopeTo(points[k])){break;}
+                        a=points[i];//max
+                        b=points[i];
+                        if(a.compareTo(points[j])<0){a=points[j];}
+                        if(b.compareTo(points[j])>0){b=points[j];}
+                        if(a.compareTo(points[k])<0){a=points[k];}
+                        if(b.compareTo(points[k])>0){b=points[k];}
+                        if(a.compareTo(points[m])<0){a=points[m];}
+                        if(b.compareTo(points[m])>0){b=points[m];}
+                        segments.add(new LineSegment(b, a));
                         num++;
                     }
                 }
@@ -39,10 +46,41 @@ public class BruteCollinearPoints {
         return num;
     }        // the number of line segments
     public LineSegment[] segments()   {
-        c=new LineSegment[num];
-        for(int i=0;i<num;i++){
-            c[i]=new LineSegment(a[i],b[i]);
-        }
-        return c;
+        return segments.toArray(new LineSegment[segments.size()]);
     }             // the line segments
+
+
+
+    /*public static void main(String[] args) {
+        // read the n points from a file
+
+        int n = 8;
+        Point[] points = new Point[n];
+        int[] a={10000,0,3000,7000,20000,14000,3100,6000 };//3100 to 3000
+        //int[] b={0,10000,7000,3000,21000,15000,4000,7000};
+        int[] b={10000,10000,10000,10000,10000,10000,10000,10000};
+        for (int i = 0; i < n; i++) {
+            int x = a[i];
+            int y = b[i];
+            points[i] = new Point(x, y);
+        }
+
+        // draw the points
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        for (Point p : points) {
+            p.draw();
+        }
+        StdDraw.show();
+
+        // print and draw the line segments
+        BruteCollinearPoints collinear = new BruteCollinearPoints(points);
+        for (LineSegment segment : collinear.segments()) {
+            StdOut.println(segment);
+            segment.draw();
+        }
+        System.out.println(collinear.numberOfSegments());
+        StdDraw.show();
+    }*/
 }
