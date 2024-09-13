@@ -9,22 +9,26 @@ public class Board {
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles){
-        this.tiles = tiles;
         n=tiles.length;
+        this.tiles=new int[n][n];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                this.tiles[i][j] = tiles[i][j];
+            }
+        }
     }
 
     // string representation of this board
     public String toString(){
-        String s=this.n+"\n";
+        StringBuilder s=new StringBuilder();
+        s.append(this.n+"\n");
         for(int i=0;i<this.n;i++) {
             for (int j = 0; j < this.n;  j++) {
-                s += " "+this.tiles[i][j];
-                if(j==this.n-1 && i!=this.n-1){
-                    s+="\n";
-                }
+                s. append(String.format(" %d",this.tiles[i][j]));
             }
+            s.append("\n");
         }
-        return s;
+        return s.toString();
     }
 
     // board dimension n
@@ -39,7 +43,7 @@ public class Board {
             for(int j=0;j<this.n;j++){
                 if(this.tiles[i][j]!=this.n*i+j+1){
                     if(i!=this.n-1 || j!=this.n-1){hamming++;}
-                    if(i==this.n-1 && j==this.n-1 &&this.tiles[i][j]!=0){hamming++;}
+                    //if(i==this.n-1 && j==this.n-1 &&this.tiles[i][j]!=0){hamming++;}
                 }
             }
         }
