@@ -6,14 +6,27 @@ import java.util.ArrayList;
 public class Board {
     private final int[][] tiles;
     private final int n;
+    private int hamming;
+    private int manhattan;
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles){
         n=tiles.length;
         this.tiles=new int[n][n];
+        hamming=0;
+        manhattan=0;
+        int c,r;
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 this.tiles[i][j] = tiles[i][j];
+                if(this.tiles[i][j]!=this.n*i+j+1){
+                    if(i!=this.n-1 || j!=this.n-1){hamming++;}
+                    //if(i==this.n-1 && j==this.n-1 &&this.tiles[i][j]!=0){hamming++;}
+                }
+                if(this.tiles[i][j]!=0){
+                    c=(this.tiles[i][j]-1)%this.n;
+                    r=(this.tiles[i][j]-1)/this.n;
+                    manhattan+=Math.abs(r-i)+Math.abs(c-j);}
             }
         }
     }
@@ -38,7 +51,7 @@ public class Board {
 
     // number of tiles out of place
     public int hamming(){
-        int hamming=0;
+        /*int hamming=0;
         for(int i=0;i<this.n;i++){
             for(int j=0;j<this.n;j++){
                 if(this.tiles[i][j]!=this.n*i+j+1){
@@ -46,13 +59,13 @@ public class Board {
                     //if(i==this.n-1 && j==this.n-1 &&this.tiles[i][j]!=0){hamming++;}
                 }
             }
-        }
+        }*/
         return hamming;
     }
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan(){
-        int manhattan=0;
+        /*int manhattan=0;
         int r,c;
         for(int i=0;i<this.n;i++){
             for(int j=0;j<this.n;j++){
@@ -62,7 +75,7 @@ public class Board {
                 manhattan+=Math.abs(r-i)+Math.abs(c-j);}
                 //if(this.tiles[i][j]==0){manhattan+=Math.abs(this.n-1-i)+Math.abs(this.n-1-j);;}
             }
-        }
+        }*/
         return manhattan;
     }
 
