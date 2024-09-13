@@ -1,7 +1,6 @@
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.StdOut;
-
-//import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class Solver {
@@ -27,10 +26,11 @@ public class Solver {
     private Node goal;
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial){
+        if (initial == null) throw new IllegalArgumentException();
         MinPQ<Node> solution= new MinPQ<>();;
         MinPQ<Node> twin_solution = new MinPQ<>();
         twin_solution.insert(new Node(initial.twin(), null, 0));
-        MinPQ<Node> manhattan_solution = new MinPQ<>();
+        MinPQ<Node> manhattan_solution;
             Node first=new Node(initial,null,0);
             solution.insert(first);
             Node min=solution.delMin();
@@ -66,19 +66,27 @@ public class Solver {
     public Iterable<Board> solution(){
         if(!Solvable) return null;
         Stack<Board> solution= new Stack<>();
-        Node current = new Node(goal.board,goal.parent,goal.moves);
+        //Node current = new Node(goal.board,goal.parent,goal.moves);
+        Node current =goal;
         while(current!=null){
             solution.push(current.board);
             current = current.parent;
         }
-        return solution;
+        ArrayList<Board> result= new ArrayList<>();
+        Board item=solution.pop();
+        result.add(item);
+        while(!solution.isEmpty()){
+            item=solution.pop();
+            result.add(item);
+        }
+        return result;
     }
 
     // test client (see below)
     public static void main(String[] args){
         int n=3;
-        //int[][] tiles = {{0,1,3},{4,2,5},{7,8,6}};
-        int[][] tiles = {{0,1,3},{4,2,5},{8,7,6}};
+        int[][] tiles = {{0,1,3},{4,2,5},{7,8,6}};
+        //int[][] tiles = {{0,1,3},{4,2,5},{8,7,6}};
         Board initial = new Board(tiles);
         System.out.println(initial.dimension());
 
