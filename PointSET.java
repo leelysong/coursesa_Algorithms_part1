@@ -17,9 +17,11 @@ public class PointSET {
         return points.size();
     }                        // number of points in the set
     public              void insert(Point2D p) {
+        if (p == null) {throw new IllegalArgumentException();}
         points.add(p);
     }             // add the point to the set (if it is not already in the set)
     public           boolean contains(Point2D p)  {
+        if (p == null) {throw new IllegalArgumentException();}
         return points.contains(p);
     }          // does the set contain point p?
     public              void draw() {
@@ -28,6 +30,7 @@ public class PointSET {
     }
     }                        // draw all points to standard draw
     public Iterable<Point2D> range(RectHV rect)  {
+        if (rect == null) {throw new IllegalArgumentException();}
         ArrayList<Point2D> range=new ArrayList<>();
     for (Point2D p : points) {
         if (rect.contains(p)) {range.add(p);}
@@ -35,6 +38,7 @@ public class PointSET {
     return range;
     }           // all points that are inside the rectangle (or on the boundary)
     public           Point2D nearest(Point2D p){
+        if (p == null) {throw new IllegalArgumentException();}
         if(isEmpty()){return null;}
         Double min=Double.POSITIVE_INFINITY;
         double d=0.0;
